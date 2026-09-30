@@ -281,6 +281,7 @@ python run.py -m benchmark
 
 ### Флаги визуализации
 | Флаг | Режимы | Назначение |
+|--------|------------|----------------|
 | -p, --plots | update, inference, summary | График распределения сущностей |
 | -l, --loss | update | Кривая обучения |
 | -mt, --metrics | update, summary | Метрики precision/recall/f1 |
