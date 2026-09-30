@@ -90,7 +90,7 @@ def filter_batch_by_quality(
             }
         }
     
-    print(f"  Фильтрация по качеству: {len(batch)} → {len(filtered_batch)} документов")
+    print(f"  Фильтрация по качеству: {len(batch)} -> {len(filtered_batch)} документов")
     if removal_reasons['low_consistency']:
         print(f"    Отброшено по низкой консистентности: {len(removal_reasons['low_consistency'])}")
     if removal_reasons['too_few_entities']:
@@ -117,6 +117,13 @@ def get_quality_filter_statistics(batch: List[Dict[str, Any]]) -> Dict[str, Any]
     total_entities = sum(doc.get('entities_count', 0) for doc in batch)
     consistent = sum(doc.get('quality', {}).get('consistent_entities', 0) for doc in batch)
     
+    entity_type_distribution = {}
+    for doc in batch:
+        for ent in doc.get('parsed_entities', []):
+            ent_type = ent.get('type')
+            if ent_type:
+                entity_type_distribution[ent_type] = entity_type_distribution.get(ent_type, 0) + 1
+    
     return {
         'quality_thresholds': stats.get('thresholds', {'min_consistency': 0.95, 'min_entities': 1}),
         'docs_before_filter': stats.get('original_docs', len(batch)),
@@ -127,5 +134,6 @@ def get_quality_filter_statistics(batch: List[Dict[str, Any]]) -> Dict[str, Any]
         'removed_few_entities': len(stats.get('removal_reasons', {}).get('too_few_entities', [])),
         'total_entities_after_filter': total_entities,
         'consistent_entities_after_filter': consistent,
-        'final_consistency_ratio': round(consistent / total_entities, 4) if total_entities > 0 else 1.0
+        'final_consistency_ratio': round(consistent / total_entities, 4) if total_entities > 0 else 1.0,
+        'entity_type_distribution': entity_type_distribution  # добавлено
     }

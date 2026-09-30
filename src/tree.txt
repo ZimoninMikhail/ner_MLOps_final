@@ -1,0 +1,83 @@
+.
+├── automation
+│   ├── drift_detector.py
+│   └── __pycache__
+│       └── drift_detector.cpython-39.pyc
+├── data_analysis
+│   ├── __init__.py
+│   ├── parser.py
+│   ├── processed_data_storage.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-39.pyc
+│   │   ├── parser.cpython-39.pyc
+│   │   ├── processed_data_storage.cpython-39.pyc
+│   │   ├── quality_checker.cpython-39.pyc
+│   │   ├── quality_filter.cpython-39.pyc
+│   │   └── type_filter.cpython-39.pyc
+│   ├── quality_checker.py
+│   ├── quality_filter.py
+│   └── type_filter.py
+├── data_collection
+│   ├── __init__.py
+│   ├── loader.py
+│   ├── metadata_calculator.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── __init__.cpython-39.pyc
+│   │   ├── loader.cpython-313.pyc
+│   │   ├── loader.cpython-39.pyc
+│   │   ├── metadata_calculator.cpython-39.pyc
+│   │   └── storage.cpython-39.pyc
+│   └── storage.py
+├── data_preparation
+│   ├── bio_encoder.py
+│   ├── __init__.py
+│   ├── prepared_data_storage.py
+│   ├── __pycache__
+│   │   ├── bio_encoder.cpython-39.pyc
+│   │   ├── __init__.cpython-39.pyc
+│   │   ├── prepared_data_storage.cpython-39.pyc
+│   │   └── tokenizer_setup.cpython-39.pyc
+│   └── tokenizer_setup.py
+├── __init__.py
+├── __pycache__
+│   ├── __init__.cpython-313.pyc
+│   └── __init__.cpython-39.pyc
+├── serving
+│   ├── inference_pipeline.py
+│   ├── __init__.py
+│   ├── model_loader.py
+│   ├── predictor.py
+│   └── __pycache__
+│       ├── inference_pipeline.cpython-39.pyc
+│       ├── __init__.cpython-39.pyc
+│       ├── model_loader.cpython-39.pyc
+│       └── predictor.cpython-39.pyc
+├── training
+│   ├── __init__.py
+│   ├── model_factory.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-39.pyc
+│   │   ├── model_factory.cpython-39.pyc
+│   │   ├── model_registry.cpython-39.pyc
+│   │   └── trainer.cpython-39.pyc
+│   └── trainer.py
+├── tree.txt
+├── validation
+│   ├── __init__.py
+│   ├── metrics.py
+│   ├── model_registry.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-39.pyc
+│   │   ├── metrics.cpython-39.pyc
+│   │   ├── model_registry.cpython-39.pyc
+│   │   └── validator.cpython-39.pyc
+│   └── validator.py
+└── visualization
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-39.pyc
+    │   └── visualizer.cpython-39.pyc
+    └── visualizer.py
+
+18 directories, 63 files

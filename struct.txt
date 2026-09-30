@@ -1,0 +1,45 @@
+.
+├── config
+│   └── config.yaml
+├── data
+│   ├── models
+│   ├── predictions
+│   ├── prepared
+│   ├── processed
+│   ├── raw
+│   └── reference
+│       ├── drift_history.json
+│       └── reference_stats.json
+├── inference_data
+│   └── test_texts.txt
+├── logs
+│   └── retrain_records.json
+├── README.md
+├── reports
+│   ├── monitoring
+│   ├── summary
+│   ├── training
+│   ├── validation
+│   └── visualization
+│       ├── html
+│       └── plots
+├── requirements.txt
+├── run.py
+├── src
+│   ├── automation
+│   ├── data_analysis
+│   ├── data_collection
+│   ├── data_preparation
+│   ├── serving
+│   ├── training
+│   ├── validation
+│   └── visualization
+├── struct.txt
+├── tests
+│   ├── test_data_analysis
+│   ├── test_data_collection
+│   ├── test_data_preparation
+│   ├── test_inference
+│   ├── test_training
+│   └── test_validation
+└── tree.txt

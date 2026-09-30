@@ -24,79 +24,62 @@
 ```
 .
 ├── config
+│   └── config.yaml
 ├── data
-│   ├── models
-│   │   └── registry.json
-│   ├── prepared
-│   ├── processed
-│   └── raw
+│   ├── models
+│   ├── predictions
+│   ├── prepared
+│   ├── processed
+│   ├── raw
+│   └── reference
+│       ├── drift_history.json
+│       └── reference_stats.json
+├── inference_data
+│   └── test_texts.txt
 ├── logs
+│   └── retrain_records.json
 ├── README.md
+├── reports
+│   ├── monitoring
+│   ├── summary
+│   ├── training
+│   ├── validation
+│   └── visualization
+│       ├── html
+│       └── plots
 ├── requirements.txt
 ├── run.py
 ├── src
-│   ├── data_analysis
-│   │   ├── __init__.py
-│   │   ├── parser.py
-│   │   ├── processed_data_storage.py
-│   │   ├── quality_checker.py
-│   │   ├── quality_filter.py
-│   │   └── type_filter.py
-│   ├── data_collection
-│   │   ├── __init__.py
-│   │   ├── loader.py
-│   │   ├── metadata_calculator.py
-│   │   └── storage.py
-│   ├── data_preparation
-│   │   ├── bio_encoder.py
-│   │   ├── __init__.py
-│   │   ├── prepared_data_storage.py
-│   │   └── tokenizer_setup.py
-│   ├── __init__.py
-│   ├── serving
-│   │   ├── inference_pipeline.py
-│   │   ├── __init__.py
-│   │   ├── model_loader.py
-│   │   └── predictor.py
-│   ├── training
-│   │   ├── __init__.py
-│   │   ├── model_factory.py
-│   │   └── trainer.py
-│   ├── validation
-│   │   ├── __init__.py
-│   │   ├── metrics.py
-│   │   ├── model_registry.py
-│   │   └── validator.py
-│   └── visualization
-│       └── __init__.py
+│   ├── automation
+│   ├── data_analysis
+│   ├── data_collection
+│   ├── data_preparation
+│   ├── serving
+│   ├── training
+│   ├── validation
+│   └── visualization
+├── struct.txt
 ├── tests
-│   ├── test_data_analysis
-│   │   └── parser_saver_test.py
-│   ├── test_data_collection
-│   │   ├── loader_saver_test.py
-│   │   └── loader_test.py
-│   ├── test_data_preparation
-│   ├── test_full_pipeline.py
-│   ├── test_inference
-│   │   └── test_inf.py
-│   ├── test_training
-│   │   └── test_training.py
-│   └── test_validation
-│       └── test_val.py
-└── test_texts.txt
+│   ├── test_data_analysis
+│   ├── test_data_collection
+│   ├── test_data_preparation
+│   ├── test_inference
+│   ├── test_training
+│   └── test_validation
 ```
 ---
 ## Этапы конвейера
 
 | Этап | Название |
 |------|----------|
-| 1 | Сбор данных |
-| 2 | Анализ данных |
-| 3 | Подготовка данных |
-| 4 | Обучение модели |
-| 5 | Валидация модели |
-| 6 | Обслуживание модели |
-
+| 1	| Сбор данных |
+| 2	| Анализ данных |
+| 3	| Подготовка данных |
+| 4	| Обучение модели |
+| 5	| Валидация модели |
+| 6	| Обслуживание модели (инференс) |
+| 7	| Визуализация |
+| 8	| Мониторинг дрейфа |
 ---
 
 ## Этап 1: Сбор данных (завершён)
@@ -193,7 +176,7 @@ data/models/
 
 ---
 
-## Этап 5: Валидация модели (завершён)
+## Этап 5: Валидация модели
 
 ### Что реализовано
 - Загрузка обученной модели из реестра версий
@@ -219,7 +202,7 @@ src/validation/
 | Recall | Полнота модели (доля найденных сущностей среди всех) |
 | F1-score | Гармоническое среднее precision и recall |
 
-## Этап 6: Обслуживание модели / Инференс (завершён)
+## Этап 6: Обслуживание модели / Инференс
 
 ### Что реализовано
 - Загрузка модели из реестра по версии или последней
@@ -235,22 +218,80 @@ src/validation/
 | `predictor.py` | Инференс на одном или нескольких текстах |
 | `inference_pipeline.py` | Унифицированный пайплайн инференса |
 
+
+## Этап 7: Визуализация
+
+### Что реализовано
+- Графики распределения сущностей по типам
+- Графики метрик модели (precision, recall, f1)
+- Кривые обучения (loss по шагам)
+- Сравнение версий моделей
+- Графики дрейфа данных
+- Графики производительности инференса
+- Подсветка сущностей в консоли (ANSI) и HTML
+- Единый HTML-дашборд для сбора всех компонентов
+
+### Модули `src/visualization/`
+| Модуль | Назначение |
+|--------|------------|
+| `visualizer.py` | Все методы визуализации |
+```
+reports/visualization/
+├── plots/          # PNG-графики
+└── html/           # HTML-отчёты и дашборды
+```
+
+## Этап 8: Мониторинг дрейфа
+### Что реализовано
+- Сравнение распределений типов сущностей между последовательными батчами
+- Расчёт JS-дивергенции (Jensen-Shannon divergence)
+- Расчёт доли новых токенов
+- Детекция дрейфа по пороговым значениям
+- Сохранение истории дрейфа
+- Визуализация дрейфа
+
+### Модули `src/automation/`
+| Модуль | Назначение |
+|--------|------------|
+| `drift_detector.py` | Детекция дрейфа данных |
+
+
 ---
 
-### Режимы работы
+## Режимы работы
 
-Система поддерживает три режима работы через командную строку:
+Система поддерживает 5 режима работы через командную строку:
 
 ```bash
 # 1. Обучение/дообучение модели
-python run.py -mode update
+python run.py -m update
 
 # 2. Применение модели к новым данным (инференс)
-python run.py -mode inference -file ./path_to_file.txt
+python run.py -m inference -f ./inference_data/texts.txt
 
 # 3. Генерация отчёта о работе системы
-python run.py -mode summary
+python run.py -m summary
+
+# 4. Мониторинг дрейфа данных
+python run.py -m monitor
+
+# 5. Бенчмаркинг производительности
+python run.py -m benchmark
 ```
+
+### Флаги визуализации
+| Флаг | Режимы | Назначение |
+| -p, --plots | update, inference, summary | График распределения сущностей |
+| -l, --loss | update | Кривая обучения |
+| -mt, --metrics | update, summary | Метрики precision/recall/f1 |
+| -c, --compare | summary | Сравнение версий моделей |
+| -d, --drift | monitor | График дрейфа данных |
+| -b, --bench | benchmark | График производительности |
+| -hi, --highlight | inference | Подсветка сущностей |
+| -o, --open | Все с визуализацией | Открыть дашборд в браузере |
+| -f, --file | inference, benchmark | Путь к файлу |
+| -t, --text | inference | Отдельный текст для обработки |
+
 
 ### Возвращаемые значения
 
@@ -259,7 +300,8 @@ python run.py -mode summary
 | `update` | `True` (успешно) или `False` (ошибка) |
 | `inference` | Путь к JSON-файлу с предсказаниями |
 | `summary` | Путь к JSON-файлу с отчётом |
-
+| `monitor` | Список сравнений батчей (drift history) |
+| `benchmark` | Словарь с метриками производительности |
 
 ## Установка
 

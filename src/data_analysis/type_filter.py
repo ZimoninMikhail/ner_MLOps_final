@@ -104,7 +104,7 @@ def filter_batch_geo(
             'allowed_types': list(allowed_types or DEFAULT_GEO_TYPES)
         }
     
-    print(f"  Фильтрация по типам: {len(batch)} → {len(filtered_batch)} документов")
+    print(f"  Фильтрация по типам: {len(batch)} -> {len(filtered_batch)} документов")
     if removed_docs:
         print(f"    Удалено документов без гео-сущностей: {len(removed_docs)}")
     
